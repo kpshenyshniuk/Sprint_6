@@ -39,5 +39,3 @@ class RentDetailsPage:
 
     def click_on_confirmation_order_button(self):
         self.driver.find_element(*self.yes_button).click()
-
-

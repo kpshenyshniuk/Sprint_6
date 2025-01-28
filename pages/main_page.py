@@ -1,6 +1,5 @@
 from selenium.webdriver.common.by import By
 
-
 class MainPage:
     faq_1_question = (By.ID, 'accordion__heading-0')
     faq_1_answer = (By.ID, 'accordion__panel-0')
@@ -34,4 +33,3 @@ class MainPage:
 
     def get_faq_answer_text(self, faq_answer):
         return self.driver.find_element(*faq_answer).text
-

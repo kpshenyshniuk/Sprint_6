@@ -9,9 +9,8 @@ def setup_driver():
     Инициализация веб-драйвера перед тестом.
     Закрытие веб-драйвера после выполнения теста.
     """
-    driver = webdriver.Firefox()  # Вы можете заменить на другой драйвер
+    driver = webdriver.Firefox()
     driver.maximize_window()
-    driver.get("https://example.com")  # Замените на ваш URL
     yield driver
     driver.quit()
 

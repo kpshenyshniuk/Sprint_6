@@ -46,6 +46,3 @@ class TestOrderPage:
         rent_details_page.click_on_confirm_button()
         WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable(rent_details_page.yes_button)).click()
         assert WebDriverWait(setup_driver, 10).until(expected_conditions.visibility_of_element_located(rent_details_page.successfull_order_message))
-
-
-

@@ -62,5 +62,3 @@ class TestMainPageFAQ:
         tabs = setup_driver.window_handles
         setup_driver.switch_to.window(tabs[1])
         assert WebDriverWait(setup_driver, 10).until(expected_conditions.url_to_be(main_page_data.yandex_dzen_link))
-
-
