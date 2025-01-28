@@ -1,3 +1,5 @@
+import time
+
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
@@ -23,15 +25,14 @@ class TestOrderPage:
         """
         Проверка успешного сценария заказа самоката с разными данными
         """
-        main_page = MainPage(setup_driver)
         base_page = BasePage(setup_driver)
         customer_details_page = CustomerDetailsPage(setup_driver)
         rent_details_page = RentDetailsPage(setup_driver)
         setup_driver.get(main_page_data.main_page_link)
-        WebDriverWait(setup_driver, 10).until(lambda d: setup_driver.execute_script("return document.readyState") == "complete")
-        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((By.ID, 'rcc-confirm-button'))).click()
+        base_page.wait_for_page_load()
+        base_page.wait_for_element_is_clickable(base_page.coockie_confirm_button)
         base_page.click_on_order_button(order_button_locator)
-        WebDriverWait(setup_driver, 10).until(expected_conditions.visibility_of_element_located((customer_details_page.about_customer_title)))
+        base_page.wait_for_visibility(customer_details_page.about_customer_title)
         customer_details_page.set_data_for_name_field(customer_details_page_data.Name)
         customer_details_page.set_data_for_surname_field(customer_details_page_data.Surname)
         customer_details_page.set_address_for_address_field(customer_details_page_data.Address)
@@ -39,11 +40,13 @@ class TestOrderPage:
         customer_details_page.choose_on_metro_station_field(station)
         customer_details_page.set_data_for_number_field(customer_details_page_data.Phone_number)
         customer_details_page.click_on_next_button()
-        WebDriverWait(setup_driver, 10).until(expected_conditions.visibility_of_element_located(rent_details_page.about_rent_title))
+        base_page.wait_for_visibility(rent_details_page.about_rent_title)
         rent_details_page.set_delivery_date(tomorrow_date)
         rent_details_page.set_rent_duration(days)
         rent_details_page.set_color_for_roller(roller_color)
         rent_details_page.set_coment_for_courier(customer_details_page_data.Comment)
         rent_details_page.click_on_confirm_button()
-        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable(rent_details_page.yes_button)).click()
-        assert WebDriverWait(setup_driver, 10).until(expected_conditions.visibility_of_element_located(rent_details_page.successfull_order_message))
+        base_page.wait_for_element_is_clickable(rent_details_page.yes_button)
+        base_page.wait_for_visibility(rent_details_page.successfull_order_message)
+        element = WebDriverWait(setup_driver, 10).until(expected_conditions.visibility_of_element_located((rent_details_page.successfull_order_message)))
+        assert element.is_displayed()

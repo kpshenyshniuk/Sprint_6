@@ -14,7 +14,6 @@ class CustomerDetailsPage:
     def __init__(self, driver):
         self.driver = driver
 
-
     def set_data_for_name_field(self, name):
         self.driver.find_element(*self.name_field).send_keys(name)
 

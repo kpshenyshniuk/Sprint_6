@@ -19,7 +19,6 @@ class RentDetailsPage:
     def __init__(self, driver):
         self.driver = driver
 
-
     def set_delivery_date(self, date):
         self.driver.find_element(*self.delivery_date_date_picker).send_keys(date + Keys.ENTER)
 
@@ -39,3 +38,6 @@ class RentDetailsPage:
 
     def click_on_confirmation_order_button(self):
         self.driver.find_element(*self.yes_button).click()
+
+    def find_element(self, element):
+        self.driver.find_element(*element)

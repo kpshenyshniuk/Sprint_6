@@ -1,10 +1,8 @@
-from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
 from selenium.webdriver.support.wait import WebDriverWait
 import pytest
 from pages.main_page import MainPage
 from data import customer_details_page_data, main_page_data
-from pages.customer_details_page import CustomerDetailsPage
 from pages.base_page import BasePage
 
 @pytest.mark.usefixtures("setup_driver")
@@ -25,13 +23,14 @@ class TestMainPageFAQ:
         Проверяем, что при клике на каждый вопрос FAQ отображается правильный текст под ним.
         """
         main_page = MainPage(setup_driver)
+        base_page = BasePage(setup_driver)
         setup_driver.get(main_page_data.main_page_link)
-        WebDriverWait(setup_driver, 10).until(lambda d: setup_driver.execute_script("return document.readyState") == "complete")
-        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((By.ID, 'rcc-confirm-button'))).click()
+        base_page.wait_for_page_load()
+        base_page.wait_for_element_is_clickable(base_page.coockie_confirm_button)
         setup_driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",setup_driver.find_element(*faq_question_locator))
         WebDriverWait(setup_driver, 10).until(lambda driver: driver.execute_script('return arguments[0].getBoundingClientRect().top <= window.innerHeight && arguments[0].getBoundingClientRect().top >= 0',setup_driver.find_element(*faq_question_locator)))
         main_page.click_on_faq_questions(faq_question_locator)
-        WebDriverWait(setup_driver, 10).until(expected_conditions.visibility_of_element_located(faq_answer_locator))
+        base_page.wait_for_visibility(faq_answer_locator)
         actual_text = main_page.get_faq_answer_text(faq_answer_locator)
 
         assert actual_text == faq_answer_text, f"Ответ на вопрос {faq_question_locator} неверный. Ожидалось: {faq_answer_text}, получено: {actual_text}"
@@ -42,22 +41,22 @@ class TestMainPageFAQ:
         """
         base_page = BasePage(setup_driver)
         setup_driver.get(customer_details_page_data.Customer_details_page_link)
-        WebDriverWait(setup_driver, 10).until(lambda d: setup_driver.execute_script("return document.readyState") == "complete")
-        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((By.ID, 'rcc-confirm-button'))).click()
-        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((base_page.roller_logo))).click()
-        WebDriverWait(setup_driver, 10).until(lambda d: setup_driver.execute_script("return document.readyState") == "complete")
+        base_page.wait_for_page_load()
+        base_page.wait_for_element_is_clickable(base_page.coockie_confirm_button)
+        base_page.wait_for_element_is_clickable(base_page.roller_logo)
+        base_page.wait_for_page_load()
         assert setup_driver.current_url == main_page_data.main_page_link
 
     def test_redirect_by_yandex_logo(self, setup_driver):
         """
         Проверяем, что при клике на лого с yandex, пользователю открывается новая вкладка с странице яндекс дзена.
         """
-        main_page = MainPage(setup_driver)
         base_page = BasePage(setup_driver)
         setup_driver.get(main_page_data.main_page_link)
-        WebDriverWait(setup_driver, 10).until(lambda d: setup_driver.execute_script("return document.readyState") == "complete")
-        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((By.ID, 'rcc-confirm-button'))).click()
-        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((base_page.yandex_dzen_logo))).click()
+        base_page.wait_for_page_load()
+        base_page.wait_for_element_is_clickable(base_page.coockie_confirm_button)
+        base_page.wait_for_element_is_clickable(base_page.yandex_dzen_logo)
         tabs = setup_driver.window_handles
         setup_driver.switch_to.window(tabs[1])
-        assert WebDriverWait(setup_driver, 10).until(expected_conditions.url_to_be(main_page_data.yandex_dzen_link))
+        base_page.wait_for_current(main_page_data.yandex_dzen_link)
+        assert setup_driver.current_url == main_page_data.yandex_dzen_link
