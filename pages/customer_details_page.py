@@ -10,7 +10,6 @@ class CustomerDetailsPage:
     station_Borisovo = (By.XPATH,'.//div[@class="select-search__select"]//*[text()="Борисово"]')
     station_Sokolniki = (By.XPATH,'.//div[@class="select-search__select"]//*[text()="Сокольники"]')
     about_customer_title = (By.XPATH, './/div[text()="Для кого самокат"]')
-    roller_logo = (By.XPATH, "//a[contains(@class, 'Header_LogoScooter')]/img[@src='/assets/scooter.svg' and @alt='Scooter']")
 
     def __init__(self, driver):
         self.driver = driver

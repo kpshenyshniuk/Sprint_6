@@ -24,9 +24,7 @@ class MainPage:
     def __init__(self, driver):
         self.driver = driver
 
-    def click_on_order_button(self, locator):
-        element = self.driver.find_element(*locator)
-        element.click()
+
 
     def click_on_faq_questions(self, faq_question):
         self.driver.find_element(*faq_question).click()

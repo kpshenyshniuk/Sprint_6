@@ -1,0 +1,6 @@
+Name = 'Леха'
+Surname = 'Фамилия'
+Address = 'улица не твеого дела 24'
+Phone_number = '345893458343'
+Customer_details_page_link = 'https://qa-scooter.praktikum-services.ru/order'
+Comment = 'Не забудьте купить пиццу'

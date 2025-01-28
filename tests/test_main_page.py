@@ -1,12 +1,11 @@
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions
-import main_page_data
 from selenium.webdriver.support.wait import WebDriverWait
 import pytest
 from pages.main_page import MainPage
-import customer_details_page_data
+from data import customer_details_page_data, main_page_data
 from pages.customer_details_page import CustomerDetailsPage
-
+from pages.base_page import BasePage
 
 @pytest.mark.usefixtures("setup_driver")
 class TestMainPageFAQ:
@@ -41,11 +40,11 @@ class TestMainPageFAQ:
         """
         Проверяем, что при клике на лого с самокатом, пользователя редиректит на главную страницу.
         """
-        customer_detail_page = CustomerDetailsPage(setup_driver)
-        setup_driver.get(customer_details_page_data.customer_details_page_link)
+        base_page = BasePage(setup_driver)
+        setup_driver.get(customer_details_page_data.Customer_details_page_link)
         WebDriverWait(setup_driver, 10).until(lambda d: setup_driver.execute_script("return document.readyState") == "complete")
         WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((By.ID, 'rcc-confirm-button'))).click()
-        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((customer_detail_page.roller_logo))).click()
+        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((base_page.roller_logo))).click()
         WebDriverWait(setup_driver, 10).until(lambda d: setup_driver.execute_script("return document.readyState") == "complete")
         assert setup_driver.current_url == main_page_data.main_page_link
 
@@ -54,11 +53,11 @@ class TestMainPageFAQ:
         Проверяем, что при клике на лого с yandex, пользователю открывается новая вкладка с странице яндекс дзена.
         """
         main_page = MainPage(setup_driver)
-        customer_detail_page = CustomerDetailsPage(setup_driver)
+        base_page = BasePage(setup_driver)
         setup_driver.get(main_page_data.main_page_link)
         WebDriverWait(setup_driver, 10).until(lambda d: setup_driver.execute_script("return document.readyState") == "complete")
         WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((By.ID, 'rcc-confirm-button'))).click()
-        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((main_page.yandex_dzen_logo))).click()
+        WebDriverWait(setup_driver, 10).until(expected_conditions.element_to_be_clickable((base_page.yandex_dzen_logo))).click()
         tabs = setup_driver.window_handles
         setup_driver.switch_to.window(tabs[1])
         assert WebDriverWait(setup_driver, 10).until(expected_conditions.url_to_be(main_page_data.yandex_dzen_link))

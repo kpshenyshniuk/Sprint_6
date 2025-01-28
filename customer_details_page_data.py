@@ -1,6 +1,0 @@
-name = 'Леха'
-surname = 'Фамилия'
-address = 'улица не твеого дела 24'
-phone_number = '345893458343'
-customer_details_page_link = 'https://qa-scooter.praktikum-services.ru/order'
-comment = 'Не забудьте купить пиццу'
