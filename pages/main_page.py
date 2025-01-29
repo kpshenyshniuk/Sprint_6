@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 
-class MainPage:
+class MainPage(BasePage):
     faq_1_question = (By.ID, 'accordion__heading-0')
     faq_1_answer = (By.ID, 'accordion__panel-0')
     faq_2_question = (By.ID, 'accordion__heading-1')
@@ -17,13 +18,6 @@ class MainPage:
     faq_7_answer = (By.ID, 'accordion__panel-6')
     faq_8_question = (By.ID, 'accordion__heading-7')
     faq_8_answer = (By.ID, 'accordion__panel-7')
-    top_order_button = (By.XPATH,"//div[contains(@class, 'Home_FinishButton')]/button[contains(@class, 'Button_Button') and text()='Заказать']")
-    bottom_order_button = (By.XPATH,"//div[contains(@class, 'Header')]/button[contains(@class, 'Button_Button') and text()='Заказать']")
-    yandex_dzen_logo = (By.XPATH, '//a[contains(@class, "Header_LogoYandex") and contains(@href, "yandex.ru")]')
-
-    def __init__(self, driver):
-        self.driver = driver
-
 
 
     def click_on_faq_questions(self, faq_question):

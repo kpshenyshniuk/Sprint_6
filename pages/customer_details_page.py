@@ -1,6 +1,7 @@
 from selenium.webdriver.common.by import By
+from pages.base_page import BasePage
 
-class CustomerDetailsPage:
+class CustomerDetailsPage(BasePage):
     name_field = (By.XPATH, '//input[@placeholder="* Имя"]')
     surname_field = (By.XPATH, '//input[@placeholder="* Фамилия"]')
     delivery_address_field = (By.XPATH, '//input[@placeholder="* Адрес: куда привезти заказ"]')
@@ -11,8 +12,6 @@ class CustomerDetailsPage:
     station_Sokolniki = (By.XPATH,'.//div[@class="select-search__select"]//*[text()="Сокольники"]')
     about_customer_title = (By.XPATH, './/div[text()="Для кого самокат"]')
 
-    def __init__(self, driver):
-        self.driver = driver
 
     def set_data_for_name_field(self, name):
         self.driver.find_element(*self.name_field).send_keys(name)

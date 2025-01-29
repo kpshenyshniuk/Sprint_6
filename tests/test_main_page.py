@@ -23,14 +23,13 @@ class TestMainPageFAQ:
         Проверяем, что при клике на каждый вопрос FAQ отображается правильный текст под ним.
         """
         main_page = MainPage(setup_driver)
-        base_page = BasePage(setup_driver)
         setup_driver.get(main_page_data.main_page_link)
-        base_page.wait_for_page_load()
-        base_page.wait_for_element_is_clickable(base_page.coockie_confirm_button)
+        main_page.wait_for_page_load()
+        main_page.wait_for_element_is_clickable(main_page.coockie_confirm_button)
         setup_driver.execute_script("arguments[0].scrollIntoView({behavior: 'smooth', block: 'center'});",setup_driver.find_element(*faq_question_locator))
         WebDriverWait(setup_driver, 10).until(lambda driver: driver.execute_script('return arguments[0].getBoundingClientRect().top <= window.innerHeight && arguments[0].getBoundingClientRect().top >= 0',setup_driver.find_element(*faq_question_locator)))
         main_page.click_on_faq_questions(faq_question_locator)
-        base_page.wait_for_visibility(faq_answer_locator)
+        main_page.wait_for_visibility(faq_answer_locator)
         actual_text = main_page.get_faq_answer_text(faq_answer_locator)
 
         assert actual_text == faq_answer_text, f"Ответ на вопрос {faq_question_locator} неверный. Ожидалось: {faq_answer_text}, получено: {actual_text}"
